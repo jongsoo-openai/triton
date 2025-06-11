@@ -941,13 +941,6 @@ LogicalResult getConvertBackwardSlice(
         auto srcEncoding = inferSrcEncoding(definingOp, encoding);
         if (!srcEncoding)
           return failure();
-        // If the infered layout matches the original one we don't need to keep
-        // propagating.
-        if (auto operandType =
-                dyn_cast<RankedTensorType>(operand.get().getType())) {
-          if (srcEncoding == operandType.getEncoding())
-            continue;
-        }
         enqueue(operand, srcEncoding);
       }
       continue;
